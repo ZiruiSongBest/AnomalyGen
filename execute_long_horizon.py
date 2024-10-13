@@ -100,10 +100,8 @@ def execute_multiple_try(
                 all_rgbs.extend(load_gif(gif_path))
             else:
                 rgbs, states = execute_primitive(task_config_path, solution_path, substep, last_restore_state_file, save_path, 
-                                                 gui=gui, randomize=randomize, use_bard=use_bard, obj_id=obj_id, 
-                                                 use_gpt_size=use_gpt_size, use_gpt_joint_angle=use_gpt_joint_angle,
-                                                 use_gpt_spatial_relationship=use_gpt_spatial_relationship,
-                                                 use_distractor=use_distractor)
+                                                 gui=gui, randomize=randomize, obj_id=obj_id, 
+                                                )
                 last_restore_state_file = states[-1]
                 all_rgbs.extend(rgbs)
                 save_numpy_as_gif(np.array(rgbs), "{}/{}.gif".format(save_path, "execute"))
