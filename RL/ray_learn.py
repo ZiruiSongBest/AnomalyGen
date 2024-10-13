@@ -40,10 +40,10 @@ def setup_config(algo, seed=0, env_config={}, eval=False):
 
     config['framework'] = 'torch'
     if not eval:
-        config['num_workers'] = 16
+        config['num_workers'] = 8
     else:
         config['num_workers'] = 1
-    config['num_envs_per_worker'] = 4
+    config['num_envs_per_worker'] = 2
     config['seed'] = seed
     config['num_gpus'] = 1
     config['log_level'] = 'ERROR'
