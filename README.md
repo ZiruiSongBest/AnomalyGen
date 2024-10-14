@@ -1,6 +1,7 @@
 <img src="imgs\Task.png" alt="Local image">
 
 <h1 style="text-align: center;">AnomalyGen</h1>
+
 ## Installation
 1.Clone this repository
 ```bash
