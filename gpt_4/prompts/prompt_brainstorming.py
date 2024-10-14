@@ -229,7 +229,7 @@ def parse_response(task_response):
 
     return task_name, task_description, task_explanation, additional_objects, links, joints
 
-def expand_task_name(object_category, object_path, round, time_string, meta_path="generated_task_from_description", temperate=0, model="gpt-4"):
+def expand_task_name(object_category, object_path, round, time_string, meta_path="generated_task", temperate=0, model="gpt-4"):
     save_folder = "data/{}/{}_{}".format(meta_path, time_string, object_category)
     if not os.path.exists(save_folder + "/gpt_response"):
         os.makedirs(save_folder + "/gpt_response")
@@ -269,17 +269,17 @@ def expand_task_name(object_category, object_path, round, time_string, meta_path
            task_name_3, task_description_3, task_explanation_3, additional_objects_3, links_3, joints_3, \
            save_folder, articulation_tree_filled, semantics_filled
 
-# def generate_from_task_name(object_category, object_path, temperature_dict=None, model_dict=None, meta_path="generated_task_from_description"):
-#     expansion_model = model_dict.get("expansion", "gpt-4")
-#     expansion_temperature = temperature_dict.get("expansion", 0.6)
-#     task_name, task_description, task_explanation, additional_objects, links, joints, \
-#     save_folder, articulation_tree_filled, semantics_filled = expand_task_name(
-#         object_category, object_path, meta_path, temperate=expansion_temperature, model=expansion_model)
-#     config_path = build_task_given_text(object_category, task_name, task_description, task_explanation, additional_objects, links, joints, 
-#                           articulation_tree_filled, semantics_filled, object_path, save_folder, temperature_dict, model_dict)
-#     return config_path
+def generate_from_task_name(object_category, object_path, temperature_dict=None, model_dict=None, meta_path="generated_task"):
+    expansion_model = model_dict.get("expansion", "gpt-4")
+    expansion_temperature = temperature_dict.get("expansion", 0.6)
+    task_name, task_description, task_explanation, additional_objects, links, joints, \
+    save_folder, articulation_tree_filled, semantics_filled = expand_task_name(
+        object_category, object_path, meta_path, temperate=expansion_temperature, model=expansion_model)
+    config_path = build_task_given_text(object_category, task_name, task_description, task_explanation, additional_objects, links, joints, 
+                          articulation_tree_filled, semantics_filled, object_path, save_folder, temperature_dict, model_dict)
+    return config_path
 
-def brainstorming_loop(object_category, object_path, num_rounds=3, meta_path="generated_task_from_description", temperature=0, model="gpt-4"):
+def brainstorming_loop(object_category, object_path, num_rounds=3, meta_path="generated_task", temperature=0, model="gpt-4"):
     previous_tasks = []
     csv_data = []
     ts = time.time()
@@ -372,7 +372,7 @@ if __name__ == "__main__":
         "expansion": "gpt-4"
     }
 
-    meta_path = "generated_task_from_description"
+    meta_path = "generated_task"
     if args.object is None:
         args.object = partnet_categories[np.random.randint(len(partnet_categories))]
     if args.object_path is None:
