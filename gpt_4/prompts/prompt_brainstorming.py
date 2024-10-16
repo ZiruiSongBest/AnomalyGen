@@ -1,5 +1,3 @@
-import sys
-sys.path.append('/Users/ziruisong/Code/safeRoboGen')
 import csv
 from gpt_4.query import query
 from gpt_4.prompts.utils import build_task_given_text
@@ -36,7 +34,7 @@ user_profile_9 = f"You are {selected_roles[8]}. And your description: {roles[sel
 
 
 
-user_contents = [
+user_content_prompt = [
 """
 I will provide an articulated object, with its articulation tree and semantics. Your goal is to imagine some dangerous or unsanitary household anomalies that a robotic arm can address with the articulated object. You can think of the robotic arm as a Franka Panda robot. The scenario will be built in a simulator for the robot to learn it. 
 Please note that the robot arm has limited capabilities; for example, it only has one arm, making tasks like retracting the blade of a folding knife quite challenging. When setting up tasks to mitigate dangers caused by a folding knife, use simpler methods that are easier for the robot arm to handle, for example, placing the knife in a safe drawer rather than retracting the blade.
@@ -171,15 +169,15 @@ Can you do the same for the following task and object:
 ]
 
 # Initialize user_contents for each role
-user_contents_1 = user_profile_1 + "\n" + user_contents[0]
-user_contents_2 = user_profile_2 + "\n" + user_contents[0]
-user_contents_3 = user_profile_3 + "\n" + user_contents[0]
-user_contents_4 = user_profile_4 + "\n" + user_contents[0]
-user_contents_5 = user_profile_5 + "\n" + user_contents[0]
-user_contents_6 = user_profile_6 + "\n" + user_contents[0]
-user_contents_7 = user_profile_7 + "\n" + user_contents[0]
-user_contents_8 = user_profile_8 + "\n" + user_contents[0]
-user_contents_9 = user_profile_9 + "\n" + user_contents[0]
+user_contents_1 = user_profile_1 + "\n" + user_content_prompt[0]
+user_contents_2 = user_profile_2 + "\n" + user_content_prompt[0]
+user_contents_3 = user_profile_3 + "\n" + user_content_prompt[0]
+user_contents_4 = user_profile_4 + "\n" + user_content_prompt[0]
+user_contents_5 = user_profile_5 + "\n" + user_content_prompt[0]
+user_contents_6 = user_profile_6 + "\n" + user_content_prompt[0]
+user_contents_7 = user_profile_7 + "\n" + user_content_prompt[0]
+user_contents_8 = user_profile_8 + "\n" + user_content_prompt[0]
+user_contents_9 = user_profile_9 + "\n" + user_content_prompt[0]
 
 user_contents = [
     user_contents_1,
@@ -339,9 +337,9 @@ def update_user_contents(previous_tasks, round):
     for task in previous_tasks:
         task_info += f"Task name: {task[0]}\nDescription: {task[1]}\nExplanation: {task[2]}\nAdditional Objects: {task[3]}\n\n"
 
-    globals()[f"user_contents_{round*3-2}"] = globals()[f"user_profile_{round*3-2}"] + task_info + "\n" + user_contents[0]
-    globals()[f"user_contents_{round*3-1}"] = globals()[f"user_profile_{round*3-1}"] + task_info + "\n" + user_contents[0]
-    globals()[f"user_contents_{round*3}"] = globals()[f"user_profile_{round*3}"] + task_info + "\n" + user_contents[0]
+    globals()[f"user_contents_{round*3-2}"] = globals()[f"user_profile_{round*3-2}"] + task_info + "\n" + user_content_prompt[0]
+    globals()[f"user_contents_{round*3-1}"] = globals()[f"user_profile_{round*3-1}"] + task_info + "\n" + user_content_prompt[0]
+    globals()[f"user_contents_{round*3}"] = globals()[f"user_profile_{round*3}"] + task_info + "\n" + user_content_prompt[0]
 
 if __name__ == "__main__":
     import argparse
