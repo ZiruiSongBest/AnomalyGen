@@ -179,17 +179,6 @@ user_contents_7 = user_profile_7 + "\n" + user_content_prompt[0]
 user_contents_8 = user_profile_8 + "\n" + user_content_prompt[0]
 user_contents_9 = user_profile_9 + "\n" + user_content_prompt[0]
 
-user_contents = [
-    user_contents_1,
-    user_contents_2,
-    user_contents_3,
-    user_contents_4,
-    user_contents_5,
-    user_contents_6,
-    user_contents_7,
-    user_contents_8,
-    user_contents_9
-]
 
 def parse_response(task_response):
     task_response = '\n'.join([line for line in task_response.split('\n') if line.strip()])
@@ -255,9 +244,9 @@ def expand_task_name(object_category, object_path, round, time_string, meta_path
 ```""".format(object_category, "".join(semantics))
 
     system = "You are a helpful assistant."
-    task_response_1 = query(system, [user_contents[round*3-3] + articulation_tree_filled + semantics_filled], [], save_path=save_path_1, debug=False, temperature=temperate, model=model)
-    task_response_2 = query(system, [user_contents[round*3-2] + articulation_tree_filled + semantics_filled], [], save_path=save_path_2, debug=False, temperature=temperate, model=model)
-    task_response_3 = query(system, [user_contents[round*3-1] + articulation_tree_filled + semantics_filled], [], save_path=save_path_3, debug=False, temperature=temperate, model=model)
+    task_response_1 = query(system, [globals()[f"user_contents_{round*3-2}"] + articulation_tree_filled + semantics_filled], [], save_path=save_path_1, debug=False, temperature=temperate, model=model)
+    task_response_2 = query(system, [globals()[f"user_contents_{round*3-1}"] + articulation_tree_filled + semantics_filled], [], save_path=save_path_2, debug=False, temperature=temperate, model=model)
+    task_response_3 = query(system, [globals()[f"user_contents_{round*3}"] + articulation_tree_filled + semantics_filled], [], save_path=save_path_3, debug=False, temperature=temperate, model=model)
 
     task_name_1, task_description_1, task_explanation_1, additional_objects_1, links_1, joints_1 = parse_response(task_response_1)
     task_name_2, task_description_2, task_explanation_2, additional_objects_2, links_2, joints_2 = parse_response(task_response_2)
@@ -306,7 +295,7 @@ def brainstorming_loop(object_category, object_path, num_rounds=3, meta_path="ge
         ])
         
         # Update user contents for next round
-        update_user_contents(previous_tasks, round)
+        update_user_contents(previous_tasks, round, num_rounds)
         
         print(f"Completed round {round} of {num_rounds}")
     
@@ -330,16 +319,18 @@ def brainstorming_loop(object_category, object_path, num_rounds=3, meta_path="ge
     
     return previous_tasks, save_folder, articulation_tree_filled, semantics_filled
 
-def update_user_contents(previous_tasks, round):
+def update_user_contents(previous_tasks, round, num_rounds):
+    if round == num_rounds:
+        return
     global user_contents_1, user_contents_2, user_contents_3, user_contents_4, user_contents_5, user_contents_6, user_contents_7, user_contents_8, user_contents_9
 
-    task_info = "\n\nHere are the previously generated tasks for your reference:\n"
+    task_info = "\n\nThe name of the task cannot be duplicated.Here are the previously generated tasks for your reference:\n"
     for task in previous_tasks:
         task_info += f"Task name: {task[0]}\nDescription: {task[1]}\nExplanation: {task[2]}\nAdditional Objects: {task[3]}\n\n"
 
-    globals()[f"user_contents_{round*3-2}"] = globals()[f"user_profile_{round*3-2}"] + task_info + "\n" + user_content_prompt[0]
-    globals()[f"user_contents_{round*3-1}"] = globals()[f"user_profile_{round*3-1}"] + task_info + "\n" + user_content_prompt[0]
-    globals()[f"user_contents_{round*3}"] = globals()[f"user_profile_{round*3}"] + task_info + "\n" + user_content_prompt[0]
+    globals()[f"user_contents_{round*3+1}"] = globals()[f"user_profile_{round*3+1}"] + task_info + "\n" + user_content_prompt[0]
+    globals()[f"user_contents_{round*3+2}"] = globals()[f"user_profile_{round*3+2}"] + task_info + "\n" + user_content_prompt[0]
+    globals()[f"user_contents_{round*3+3}"] = globals()[f"user_profile_{round*3+3}"] + task_info + "\n" + user_content_prompt[0]
 
 if __name__ == "__main__":
     import argparse
