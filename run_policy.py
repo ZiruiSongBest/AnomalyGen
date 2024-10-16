@@ -11,7 +11,7 @@ if not ray.is_initialized():
 
 # build the environment
 # NOTE: change to your taks config path
-task_config_path = "data/generated_task_from_description/open_the_storage_furniture_StorageFurniture_48452_2023-12-25-16-50-52/open_the_storage_furniture_The_robot_arm_will_open_the_storage_furniture_such_as_a_cabinet_or_a_drawer.yaml"
+task_config_path = ""
 with open(task_config_path, 'r') as file:
     task_config = yaml.safe_load(file)
 
@@ -22,9 +22,9 @@ for obj in task_config:
         break
 
 # NOTE: change to your task name
-task_name = "open_the_door_of_the_storage_furniture"
+task_name = ""
 # NOTE: this is important, this should be set to final state before running the RL algorithm. Change to your state file
-last_restore_state_file = "data/generated_task_from_description/open_the_storage_furniture_StorageFurniture_48452_2023-12-25-16-50-52/task_open_the_storage_furniture/primitive_states/2023-12-25-17-05-33/grasp_the_door_of_the_storage_furniture/state_134.pkl" 
+last_restore_state_file = "" 
 obj_id = 0
 gui = True
 randomize = False
@@ -53,7 +53,7 @@ tune.register_env(env_name, lambda config: make_env(config))
 # load the policy
 algo = 'sac'
 # NOTE: change to your policy path
-load_policy_path = "data/generated_task_from_description/open_the_storage_furniture_StorageFurniture_48452_2023-12-25-16-50-52/task_open_the_storage_furniture/RL_sac/2023-12-25-17-05-33/open_the_door_of_the_storage_furniture/best_model/checkpoint_001349/checkpoint-1349"
+load_policy_path = ""
 agent, checkpoint_path = load_policy(algo, env_name, load_policy_path, env_config=env_config, seed=0)
 
 obs = env.reset()

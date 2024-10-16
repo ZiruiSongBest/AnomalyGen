@@ -6,7 +6,7 @@ from gpt_4.prompts.prompt_set_joint_angle import query_joint_angle
 from gpt_4.prompts.prompt_spatial_relationship import query_spatial_relationship
 from gpt_4.query import query
 from gpt_4.adjust_size import adjust_size_v2
-# 第六处改动
+
 task_yaml_config_prompt = """
 I need you to describe the initial scene configuration for a given task in the following format, using a yaml file. This YAML file will help build the task in a simulator.
 The format is as follows:
